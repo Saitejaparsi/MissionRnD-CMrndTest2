@@ -109,7 +109,8 @@ char * find_common_route(char * hacklist, char *codelist, int *cost){
 			char *g;
 			g = (char *)malloc(max*sizeof(char));
 			for (i = 0; i<max; i++)
-				g[i] = c[b[f]][i];
+				g[i] = c[b[f-1]][i];
+			g[i] = '\0';
 			return g;
 		}
 	}
