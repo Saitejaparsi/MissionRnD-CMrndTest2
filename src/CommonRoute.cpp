@@ -3,7 +3,7 @@ There are two friends Hack and Code . They have decided to go on a world tour wh
 There are a total of 26 Islands in the world ,where Each Island has a name from A ,B ,C ,D ... till Z .
 [Each Island name is restricted to only 1 Letter]
 
-Hack and Code seperately made their travel lists ,where they specify List of Islands they want to visit 
+Hack and Code seperately made their travel lists ,where they specify List of Islands they want to visit
 in a particular order .
 Ex : If Hack's List is "CADBZ" , He wants to go first to C island ,next A island and B and so on ,and finally
 reach Z island .
@@ -18,27 +18,27 @@ Cost of Visiting A island is 1 ,H is 8 , Z is 26 and so on .
 Can you help Hack and Code to find the Common Route ,so that their dispute is solved .
 
 Inputs :
-Two Strings of Capital Letters ,where each Letter denotes an Island .They can visit each Island any 
+Two Strings of Capital Letters ,where each Letter denotes an Island .They can visit each Island any
 number of times.
 Output :
-Return a Common Route String which covers maxiumum Islands 
+Return a Common Route String which covers maxiumum Islands
 
-Example 1 : 
-Input : HackList="CADBZAYZY" CodeList="BZAYACAFRDBZ" 
+Example 1 :
+Input : HackList="CADBZAYZY" CodeList="BZAYACAFRDBZ"
 Output: Return "BZAY" and modify the Cost variable to  54 [2+26+1+25]
-Explanation : 
+Explanation :
 They both can start at B ,Go to Z ,and go to A,Finally reach Y .This Route covers 4 islands ,where
 all other routes like CA ,DBZ , ZAY ,etc covers less than 4 islands .
 
-Note : If there are Two Maximum routes which cover Equal number of Islands , Return the Route which Costs 
-less . IF the Costs are also equal ,Return the Route ,whose FirstIsland is Alphabetically Before 
+Note : If there are Two Maximum routes which cover Equal number of Islands , Return the Route which Costs
+less . IF the Costs are also equal ,Return the Route ,whose FirstIsland is Alphabetically Before
 [Assume two routes with same cost ,will always have first island a different one].
 
-Final Route Islands should be in Both Hack and Codes list and in same order ,If Final route is ACB 
+Final Route Islands should be in Both Hack and Codes list and in same order ,If Final route is ACB
 There must be a route in both Lists which is ACB . [AZZCB , ADCDB dont qualify ,Order should be continous]
 Return NULL for Invalid Inputs or No Common Route[Cost will be 0].
 
-Example 2 : Input : "CABTYUZZZ" , "ZZZTYUCAB" , Output : "CAB" and cost should be 6 (Least Cost ) 
+Example 2 : Input : "CABTYUZZZ" , "ZZZTYUCAB" , Output : "CAB" and cost should be 6 (Least Cost )
 Example 3 : Input : "HHHZAADTD" , "ZAAHHHDTDRR" , Output : "DTD" (DTD , HHH ,ZAA has same cost of 28 ,but the
 First Island in DTD ie 'D' occurs alphabatically before 'H' and 'Z')
 
@@ -50,6 +50,67 @@ First Island in DTD ie 'D' occurs alphabatically before 'H' and 'Z')
 
 
 char * find_common_route(char * hacklist, char *codelist, int *cost){
-	return NULL;
-}
+	if (hacklist == NULL || codelist == NULL || hacklist == nullptr || codelist == nullptr)
+	{
+		*cost = 0;
+		return NULL;
+	}
+	else
+	{
+		char c[25][26] = { { 0 } };
+		int a[13] = { 0 }, i, j, k = 0;
+		for (i = 0; hacklist[i]; i++)
+		{
+			for (j = 0; codelist[j]; j++)
+			{
+				if (hacklist[i] == codelist[j] && hacklist[i + 1] == codelist[j + 1])
+				{
+					int m = 0;
+					int l = i;
+					for (j; codelist[j] == hacklist[l]; l++, j++, m++)
+					{
 
+						c[k][m] = codelist[j];
+					}
+					c[k][m] = '\0';
+					a[k] = m;
+					k++;
+					break;
+				}
+			}
+		}
+		int b[13] = { 0 }, max = a[0], f = 0;
+		{
+			for (i = 0; i < k; i++){
+				if (max < a[i])
+				{
+					max = a[i];
+				}
+			}
+		}
+		for (i = 0; i < k; i++)
+		{
+			if (max == a[i])
+			{
+				b[f] = i;
+				f++;
+			}
+		}
+		if (a[0] == 0){
+			*cost = 0;
+			return 0;
+		}
+		if (f == 1)
+		{
+			int sum = 0;
+			for (i = 0; i < max; i++)
+				sum = sum + (c[b[f - 1]][i] - 'A' + 1);
+			*cost = sum;
+			char *g;
+			g = (char *)malloc(max*sizeof(char));
+			for (i = 0; i<max; i++)
+				g[i] = c[b[f]][i];
+			return g;
+		}
+	}
+}

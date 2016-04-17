@@ -30,15 +30,56 @@ The type if node is oddevennode ,and not Node .
 */
 #include <stdlib.h>
 #include <stdio.h>
+typedef struct oddevennode{
+int data;
+struct oddevennode * next;
+struct oddevennode * random;
 
-struct oddevennode{
-	int data;
-	struct oddevennode * next;
-	struct oddevennode * random;
-
-};
+}oe;
 
 int * oddeven_sll(struct oddevennode *head){
-
-	return NULL;
+	if (head == NULL || head == nullptr)
+		return NULL;
+	else{
+		oe *e = NULL, *o = NULL, *h = head;
+		int i = 0, j = 0;
+		int *arr;
+		if ((h->data) % 2 == 0){
+			e = h;
+			h = h->next;
+			i++;
+		}
+		else
+		{
+			o = h;
+			h = h->next;
+			j++;
+		}
+		for (h; h != NULL; h = h->next)
+		{
+			if ((h->data) % 2 == 0){
+				i++;
+				if (e == NULL)
+					e = h;
+				else{
+					e->random = h;
+					e = h;
+				}
+			}
+			else
+			{
+				j++;
+				if (o == NULL)
+					o = h;
+				else{
+					o->random = h;
+					o = h;
+				}
+			}
+		}
+		arr = (int *)malloc(2 * sizeof(int));
+		*(arr + 0) = j;
+		*(arr + 1) = i;
+		return arr;
+	}
 }
